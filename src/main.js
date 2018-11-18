@@ -11,23 +11,42 @@ import Seller from "@/components/seller/Seller";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
-const routes = [
-  { path: "/", redirect: "/goods" },
-  { path: "/goods", component: Goods },
-  { path: "/ratings", component: Ratings },
-  { path: "/seller", component: Seller }
+const routes = [{
+    path: "/",
+    redirect: "/goods"
+  },
+  {
+    path: "/goods",
+    component: Goods
+  },
+  {
+    path: "/ratings",
+    component: Ratings
+  },
+  {
+    path: "/seller",
+    component: Seller
+  },
+  {
+    path: '*',
+    redirect: '/'
+  }
 
 ];
 const router = new VueRouter({
   routes,
-  linkActiveClass: "active"  //  路由默认选中得样式
+  mode: 'history'  ,// 解决再次刷新
+  linkActiveClass: "active" //  路由默认选中得样式
 })
 
 /* eslint-disable no-new */
 
 new Vue({
   el: "#app",
-  router, 
-  components: { App },
+  router,
+  components: {
+    App
+  },
   template: "<App/>"
 });
+
