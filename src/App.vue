@@ -34,11 +34,11 @@ export default{
       .then(res=>{
         return res.json()
       })
-      .then(Response =>{
+      .then(response =>{
       //  console.log(Response);
-        if(Response.code == 0){
-          this.poiInfo = Response.data.poi_info
-            console.log( this.poiInfo);
+        if(response.code == 0){
+          this.poiInfo = response.data.poi_info
+           // console.log( this.poiInfo);
         }
       })
   }
