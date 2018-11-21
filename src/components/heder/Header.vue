@@ -450,7 +450,7 @@ export default {
 /* 动画效果 */ 
 .bulletin-detail-enter-active,
 .bulletin-detail-leave-active {
-  transition: 2s all;
+  transition: 1s all;
 }
 
 .bulletin-detail-enter,

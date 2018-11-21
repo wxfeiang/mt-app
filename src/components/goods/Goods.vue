@@ -19,8 +19,11 @@
                          <img class="icon" :src="item.icon" v-if="item.icon">
                           {{item.name}}
                     </p>
-                   
+                  <i class="num" v-show="calculateCount(item.spus)">
+                        {{calculateCount(item.spus)}}
+                  </i>
                 </li>
+                 
             </ul>
 
             
@@ -54,8 +57,12 @@
                                     <span class="text">${{food.min_price}}</span>
                                     <span class="unit">/{{food.unit}}</span>
                                 </p>
-
                             </div>
+                            <!--  加减号组件 -->
+                          
+                             <div class="cartcontrol-wrapper">
+                                <app-cart-control :food="food" ></app-cart-control>
+                           </div>
 
                         </li>
                     </ul>
@@ -63,14 +70,20 @@
                 </li>
             </ul>
         </div>
-
-       
+        <!-- 购物车 -->
+          <app-Shopcart :poiInfo="poiInfo" :selectFoods="selectFoods"></app-Shopcart>  
     </div>
 </template>
 <script>
 import BScroll from "better-scroll"; // 引入 better-scroll
+import Shopcart from "../shopcart/Shopcart"  //购物车组件
+import Cartcontrol from "../cartcontrol/Cartcontrol"   //  加减号组件
 /* 属性传值 */
 export default {
+  components:{
+    "app-Shopcart": Shopcart,
+    "app-cart-control" : Cartcontrol
+  },
   data() {
     return {
       container: {},
@@ -78,7 +91,8 @@ export default {
       listHeight: [], // li 元素的 可视高数组
       menuScroll: {}, // 滚动对象
       foodScroll: {},
-      scrollY: 0
+      scrollY: 0,
+      poiInfo: {}  
     };
   },
   // 计算属性不能接受参数 用方法
@@ -92,7 +106,7 @@ export default {
       this.menuScroll = new BScroll(this.$refs.menuScroll); // 实例化
       this.foodScroll = new BScroll(this.$refs.foodScroll, {
         probeType: 3,
-        click: true
+        click: true  // 使用减价号的方法
       });
       // 滚动监听事件
       this.foodScroll.on("scroll", pos => {
@@ -100,6 +114,8 @@ export default {
         // 负数处理
         this.scrollY = Math.abs(Math.round(pos.y));
       });
+
+
     },
     calculateHeight() {
       //滚动右侧
@@ -127,6 +143,16 @@ export default {
       // 滚动到对应元素的位置
       this.foodScroll.scrollToElement(element,250)
     },
+     calculateCount(spus){
+      let count = 0
+      spus.forEach((food) => {
+        if(food.count > 0){
+          count += food.count
+        }
+      })
+      return count
+    }  
+   
   },
   created() {
     // es6 请求数据
@@ -137,8 +163,9 @@ export default {
       .then(response => {
         //  console.log(Response);
         if (response.code == 0) {
-          this.container = response.data.container_operation_source;
-          this.goods = response.data.food_spu_tags;
+          this.container = response.data.container_operation_source
+          this.goods = response.data.food_spu_tags
+           this.poiInfo = response.data.poi_info  // 购物车底部信息
           //console.log(this.goods);
 
           // Dom 更新完成 以后  执行
@@ -167,6 +194,18 @@ export default {
         }
       }
       return 0;
+    },
+    //   计算添加的个数
+    selectFoods(){
+      let  foods = []
+      this.goods .forEach((myfoods) => {
+        myfoods.spus.forEach((food) =>{
+          if(food.count>0){  // 个数添加了
+            foods.push(food)
+          }
+        }) 
+      });
+      return foods  // 
     }
   }
 };
@@ -244,9 +283,13 @@ export default {
 .goods .foods-wrapper .food-list .food-item {
   display: flex;
   margin-bottom: 25px;
-  position: relative;
+  position: relative; 
 }
-
+.goods .foods-wrapper .food-list .food-item .cartcontrol-wrapper {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
 .goods .foods-wrapper .food-list .food-item .icon {
   flex: 0 0 63px;
   background-position: center;
@@ -315,11 +358,7 @@ export default {
   margin-top: 1px;
 }
 
-.goods .foods-wrapper .food-list .food-item .cartcontrol-wrapper {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-}
+
 
 .goods .menu-wrapper .menu-item .num {
   position: absolute;
