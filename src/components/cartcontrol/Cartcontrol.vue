@@ -1,17 +1,18 @@
 <template>
    
     <div class="cartcontrol">
-        <!-- 减号的动画小伙 -->
+        <!-- 减号的动画效果-->
         <transition name="move">
-             <div class="cart-decrease icon-remove_circle_outline" @click="decreaseCart" v-show="food.count"> 
+             <div class="cart-decrease icon-remove_circle_outline" @click="decreaseCart" v-show="food.count" > 
         </div>
         
         </transition>
        
         <div class="cart-count" v-show="food.count">{{food.count}}</div>
         <div 
-            class="cart-add icon-add_circle"  @click="increaseCart">
+            class="cart-add icon-add_circle"  @click.stop.prevent="increaseCart">
             <i class="bg"></i>
+            <!-- 点击加号 阻止事件冒泡 -->
         </div>
 	</div>
 </template>

@@ -42,8 +42,9 @@
                     <h3 class="title">{{item.name}}</h3>
 
                     <!-- 具体的商品列表 -->
-                    <ul>
-                        <li v-for="(food,index) in item.spus" :key="index" class="food-item">
+                    <ul>  
+                      <!-- 点击 查看详情 -->
+                        <li v-for="(food,index) in item.spus" :key="index" class="food-item"   @click="showDetail(food)">
                             <div class="icon" :style="head_bg(food.picture)"></div>
                             <div class="content">
                                 <h3 class="name">{{food.name}}</h3>
@@ -72,17 +73,21 @@
         </div>
         <!-- 购物车 -->
           <app-Shopcart :poiInfo="poiInfo" :selectFoods="selectFoods"></app-Shopcart>  
+        <!-- 商品详情 -->
+         <app-product-detail :food="selectFood" ref="foodView"></app-product-detail>
     </div>
 </template>
 <script>
-import BScroll from "better-scroll"; // 引入 better-scroll
+import BScroll from "better-scroll" // 引入 better-scroll
 import Shopcart from "../shopcart/Shopcart"  //购物车组件
 import Cartcontrol from "../cartcontrol/Cartcontrol"   //  加减号组件
+import ProductDetail from "../productDetail/ProductDetail"  // 详情组件
 /* 属性传值 */
 export default {
   components:{
     "app-Shopcart": Shopcart,
-    "app-cart-control" : Cartcontrol
+    "app-cart-control" : Cartcontrol,
+    "app-product-detail" : ProductDetail
   },
   data() {
     return {
@@ -92,7 +97,8 @@ export default {
       menuScroll: {}, // 滚动对象
       foodScroll: {},
       scrollY: 0,
-      poiInfo: {}  
+      poiInfo: {}  ,
+      selectFood:{}  // 当前点击的 li 商品
     };
   },
   // 计算属性不能接受参数 用方法
@@ -151,7 +157,11 @@ export default {
         }
       })
       return count
-    }  
+    } ,
+    showDetail(food){
+        this.selectFood = food
+        this.$refs.foodView.showView()
+      }
    
   },
   created() {

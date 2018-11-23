@@ -1,5 +1,15 @@
 <template>
     <div class="">
-        ratingss
+       
     </div>
 </template>
+<script>
+export default {
+    
+}
+</script>
+<style>
+
+</style>
+
+

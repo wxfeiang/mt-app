@@ -21,7 +21,7 @@ const  app = express()
 
 // 引入数据
 var goods = require("../data/goods.json")
-var ratings = require("../data/ratings.json")
+var ratings = require("../data/ratings.json") 
 var seller = require("../data/seller.json")
 
 
@@ -60,8 +60,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       app.get('/api/goods',(req,res)=>{
         res.json(goods)
       })
-      app.get('/api/ratinds',(req,res)=>{
-        res.json(ratinds)
+      app.get('/api/ratings',(req,res)=>{ 
+        res.json(ratings)
       })
       app.get('/api/seller',(req,res)=>{
         res.json(seller)
