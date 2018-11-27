@@ -3,7 +3,7 @@
     <div class="cartcontrol">
         <!-- 减号的动画效果-->
         <transition name="move">
-             <div class="cart-decrease icon-remove_circle_outline" @click="decreaseCart" v-show="food.count" > 
+             <div class="cart-decrease icon-remove_circle_outline" @click.stop.prevent="decreaseCart" v-show="food.count" > 
         </div>
         
         </transition>

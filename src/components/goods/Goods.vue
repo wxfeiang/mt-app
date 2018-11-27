@@ -109,7 +109,9 @@ export default {
     },
     initScroll() {
       //  传入需要滚动的对象  绑定  和 v-model 正对表单
-      this.menuScroll = new BScroll(this.$refs.menuScroll); // 实例化
+      this.menuScroll = new BScroll(this.$refs.menuScroll,{
+        click: true  //  触发点击事件
+      }); // 实例化
       this.foodScroll = new BScroll(this.$refs.foodScroll, {
         probeType: 3,
         click: true  // 使用减价号的方法

@@ -8,7 +8,10 @@
   </div>
   <!-- contant -->
   <div class="content">
-   <router-view></router-view>
+    <keep-alive>
+      <!-- 对路由状态的缓存 -->
+     <router-view></router-view>
+   </keep-alive>
   </div>
    
   </div>
